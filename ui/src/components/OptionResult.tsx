@@ -1,0 +1,89 @@
+
+// src/components/OptionsChart.tsx
+import React from 'react';
+import { Card, Image, Text, Badge, Button, Group, Table, Divider } from '@mantine/core';
+// import '@mantine/core/styles.css';
+
+export interface OptionResult {
+  price: number;
+  delta: number;
+  gamma: number;
+  vega: number;
+  theta: number;
+  rho: number;
+}
+
+export interface TempOptionPriceArray {
+  data: {
+    delta_price_output: number;
+    delta_time_output: number;
+    theta_price_output: number;
+    theta_time_output: number;
+    gamma_price_output: number;
+    gamma_time_output: number;
+  }[];
+}
+
+export interface Option3dData {
+  data: {
+    delta_price_time_output: number;
+    theta_price_time_output: number;
+    gamma_price_time_output: number;
+    time: number;
+    price: number;
+  }[];
+}
+
+interface OptionsResultProps {
+  data: OptionResult | undefined;
+}
+const OptionsResult: React.FC<OptionsResultProps> = ({ data }) => {
+  return (
+    <Card shadow="sm" padding="lg" radius="md" withBorder>
+      {data ? (
+    <Table>
+    <Table.Thead>
+      <Table.Tr>
+        <Table.Th>Greek</Table.Th>
+        <Table.Th>Value</Table.Th>
+      </Table.Tr>
+    </Table.Thead>
+    <Table.Tbody>
+    <Table.Tr key="Delta">
+      <Table.Td>Delta</Table.Td>
+      <Table.Td>{data.delta}</Table.Td>
+    </Table.Tr>
+    <Table.Tr key="Theta">
+      <Table.Td>Theta</Table.Td>
+      <Table.Td>{data.theta}</Table.Td>
+    </Table.Tr>
+    <Table.Tr key="Gamma">
+      <Table.Td>Gamma</Table.Td>
+      <Table.Td>{data.gamma}</Table.Td>
+    </Table.Tr>
+
+    <Table.Tr key="Vega">
+      <Table.Td>Vega</Table.Td>
+      <Table.Td>{data.vega}</Table.Td>
+    </Table.Tr>
+
+    <Table.Tr key="Rho">
+      <Table.Td>Rho</Table.Td>
+      <Table.Td>{data.rho}</Table.Td>
+    </Table.Tr>
+
+
+
+    </Table.Tbody>
+  </Table>
+    ) : (
+        <p>No option data available.</p>
+      )}
+    </Card>
+  );
+};
+
+export default OptionsResult;
+
+
+
