@@ -1,9 +1,9 @@
 
 var createBsmModule = (() => {
-  var _scriptName = import.meta.url;
-  
+  var _scriptName = typeof document != 'undefined' ? document.currentScript?.src : undefined;
+  if (typeof __filename != 'undefined') _scriptName = _scriptName || __filename;
   return (
-async function(moduleArg = {}) {
+function(moduleArg = {}) {
   var moduleRtn;
 
 // include: shell.js
@@ -28,7 +28,7 @@ var readyPromise = new Promise((resolve, reject) => {
   readyPromiseResolve = resolve;
   readyPromiseReject = reject;
 });
-["_free","_malloc","_black_scholes","_delta_for_price","_delta_for_time","_delta_for_price_time","_theta_for_price_time","_gamma_for_price_time","_theta_for_price","_theta_for_time","_gamma_for_price","_gamma_for_time","_black_scholes_strike_vec","_delta","_gamma","_vega","_theta","_rho","_norm_cdf","_memory","___indirect_function_table","onRuntimeInitialized"].forEach((prop) => {
+["_free","_malloc","_black_scholes","_delta","_gamma","_vega","_theta","_rho","_norm_cdf","_delta_for_price","_delta_for_time","_theta_for_price","_gamma_for_price","_theta_for_time","_gamma_for_time","_black_scholes_strike_vec","_delta_for_price_time","_theta_for_price_time","_gamma_for_price_time","_memory","___indirect_function_table","onRuntimeInitialized"].forEach((prop) => {
   if (!Object.getOwnPropertyDescriptor(readyPromise, prop)) {
     Object.defineProperty(readyPromise, prop, {
       get: () => abort('You are getting ' + prop + ' on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js'),
@@ -53,13 +53,6 @@ if (ENVIRONMENT_IS_NODE) {
   // the require()` function.  This is only necessary for multi-environment
   // builds, `-sENVIRONMENT=node` emits a static import declaration instead.
   // TODO: Swap all `require()`'s with `import()`'s?
-  const { createRequire } = await import('module');
-  let dirname = import.meta.url;
-  if (dirname.startsWith("data:")) {
-    dirname = '/';
-  }
-  /** @suppress{duplicate} */
-  var require = createRequire(dirname);
 
 }
 
@@ -108,12 +101,7 @@ if (ENVIRONMENT_IS_NODE) {
   var fs = require('fs');
   var nodePath = require('path');
 
-  // EXPORT_ES6 + ENVIRONMENT_IS_NODE always requires use of import.meta.url,
-  // since there's no way getting the current absolute path of the module when
-  // support for that is not available.
-  if (!import.meta.url.startsWith('data:')) {
-    scriptDirectory = nodePath.dirname(require('url').fileURLToPath(import.meta.url)) + '/';
-  }
+  scriptDirectory = __dirname + '/';
 
 // include: node_shell_read.js
 readBinary = (filename) => {
@@ -639,15 +627,11 @@ function createExportWrapper(name, nargs) {
 // include: runtime_exceptions.js
 // end include: runtime_exceptions.js
 function findWasmBinary() {
-  if (Module['locateFile']) {
     var f = 'bsm_pricing.wasm';
     if (!isDataURI(f)) {
       return locateFile(f);
     }
     return f;
-  }
-  // Use bundler-friendly `new URL(..., import.meta.url)` pattern; works in browsers too.
-  return new URL('bsm_pricing.wasm', import.meta.url).href;
 }
 
 var wasmBinaryFile;
@@ -855,15 +839,13 @@ function isExportedByForceFilesystem(name) {
  * their build, or no symbols that no longer exist.
  */
 function hookGlobalSymbolAccess(sym, func) {
-  if (typeof globalThis != 'undefined' && !Object.getOwnPropertyDescriptor(globalThis, sym)) {
-    Object.defineProperty(globalThis, sym, {
-      configurable: true,
-      get() {
-        func();
-        return undefined;
-      }
-    });
-  }
+  // In MODULARIZE mode the generated code runs inside a function scope and not
+  // the global scope, and JavaScript does not provide access to function scopes
+  // so we cannot dynamically modify the scrope using `defineProperty` in this
+  // case.
+  //
+  // In this mode we simply ignore requests for `hookGlobalSymbolAccess`. Since
+  // this is a debug-only feature, skipping it is not major issue.
 }
 
 function missingGlobal(sym, msg) {
@@ -1722,4 +1704,7 @@ for (const prop of Object.keys(Module)) {
 }
 );
 })();
-export default createBsmModule;
+if (typeof exports === 'object' && typeof module === 'object')
+  module.exports = createBsmModule;
+else if (typeof define === 'function' && define['amd'])
+  define([], () => createBsmModule);
