@@ -30,7 +30,7 @@ const OptionChart3d: React.FC<OptionsChartProps> = ({ data }) => {
 
     // Create axis labels
     const priceRange = [Math.min(...data.map(item => item.price)), Math.max(...data.map(item => item.price))];
-    const timeRange = [Math.min(...data.map(item => item.time)), Math.max(...data.map(item => item.time))];
+    const timeRange = [Math.min(...data.map(item => item.time * 365)), Math.max(...data.map(item => item.time * 365))];
     const deltaRange = [Math.min(...data.map(item => item.delta_price_time_output)), Math.max(...data.map(item => item.delta_price_time_output))];
 
     // Create sensible tick marks for Price and Time
@@ -76,7 +76,7 @@ const OptionChart3d: React.FC<OptionsChartProps> = ({ data }) => {
 
 
         for (let i = 0; i <= divisions; i++) {
-          const labelValue = (i * spacing).toFixed(2); // Format the label value
+          // const labelValue = (i * spacing).toFixed(2); // Format the label value
           // Labels for Delta (x-axis)
           createTextLabel(priceTicks[i], new THREE.Vector3(i * spacing - axisLength / 2, -axisLength / 2, 5 + axisLength / 2));
           // Labels for Time (z-axis)

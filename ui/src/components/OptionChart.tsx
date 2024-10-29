@@ -67,7 +67,7 @@ const OptionsChart: React.FC<OptionsChartProps> = ({ data }) => {
         <>
           <Grid>
             {mappings.map((mapping) => (
-              <Grid.Col key={mapping.series} span={3}>
+              <Grid.Col key={mapping.series} span={6}>
                 <LineChart
                   h={300}
                   data={data}

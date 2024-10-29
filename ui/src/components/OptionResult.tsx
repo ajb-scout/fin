@@ -4,6 +4,17 @@ import React from 'react';
 import { Card, Image, Text, Badge, Button, Group, Table, Divider } from '@mantine/core';
 // import '@mantine/core/styles.css';
 
+export interface OptionInputs {
+    S: number;
+    K: number;
+    t: number;
+    r: number;
+    sigma: number;
+    call: boolean;
+  
+  
+}
+
 export interface OptionResult {
   price: number;
   delta: number;
@@ -55,7 +66,7 @@ const OptionsResult: React.FC<OptionsResultProps> = ({ data }) => {
     </Table.Tr>
     <Table.Tr key="Theta">
       <Table.Td>Theta</Table.Td>
-      <Table.Td>{data.theta}</Table.Td>
+      <Table.Td>{data.theta / 365}</Table.Td>
     </Table.Tr>
     <Table.Tr key="Gamma">
       <Table.Td>Gamma</Table.Td>
