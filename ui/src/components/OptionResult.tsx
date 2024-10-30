@@ -62,28 +62,26 @@ const OptionsResult: React.FC<OptionsResultProps> = ({ data }) => {
     <Table.Tbody>
     <Table.Tr key="Delta">
       <Table.Td>Delta</Table.Td>
-      <Table.Td>{data.delta}</Table.Td>
+      <Table.Td>{data.delta.toFixed(5)}</Table.Td>
     </Table.Tr>
     <Table.Tr key="Theta">
       <Table.Td>Theta</Table.Td>
-      <Table.Td>{data.theta / 365}</Table.Td>
+      <Table.Td>{(data.theta / 365).toFixed(5)}</Table.Td>
     </Table.Tr>
     <Table.Tr key="Gamma">
       <Table.Td>Gamma</Table.Td>
-      <Table.Td>{data.gamma}</Table.Td>
+      <Table.Td>{data.gamma.toFixed(5)}</Table.Td>
     </Table.Tr>
 
     <Table.Tr key="Vega">
       <Table.Td>Vega</Table.Td>
-      <Table.Td>{data.vega}</Table.Td>
+      <Table.Td>{data.vega.toFixed(5)}</Table.Td>
     </Table.Tr>
 
     <Table.Tr key="Rho">
       <Table.Td>Rho</Table.Td>
-      <Table.Td>{data.rho}</Table.Td>
+      <Table.Td>{data.rho.toFixed(5)}</Table.Td>
     </Table.Tr>
-
-
 
     </Table.Tbody>
   </Table>

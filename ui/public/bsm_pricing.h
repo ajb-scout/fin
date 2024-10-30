@@ -20,9 +20,9 @@ extern "C" {
     void gamma_for_time(double S, double* output, double K, double* T, double r, double sigma, bool is_call, int size);
 
 
-    void delta_for_price_time(double* S, double* output, double K, double* T, double r, double sigma, bool is_call, int size);
-    void theta_for_price_time(double* S, double* output, double K, double* T, double r, double sigma, bool is_call, int size);
-    void gamma_for_price_time(double* S, double* output, double K, double* T, double r, double sigma, bool is_call, int size);
+    void delta_for_price_time(double* S, double* output, double K, double* T, double r, double sigma, bool is_call, int sSize, int tSize );
+    void theta_for_price_time(double* S, double* output, double K, double* T, double r, double sigma, bool is_call, int sSize, int tSize);
+    void gamma_for_price_time(double* S, double* output, double K, double* T, double r, double sigma, bool is_call, int sSize, int tSize);
 
 }
 #endif // BSM_PRICING_H

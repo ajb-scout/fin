@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test BSM Module</title>
+    <script src="/bsm_pricing.js"></script>
+    <script>
+        window.onload = async () => {
+            try {
+                const module = (window as any).createBsmModule();
+                const instance = await module();
+                console.log('Module loaded:', instance);
+            } catch (error) {
+                console.error('Error loading module:', error);
+            }
+        };
+    </script>
+</head>
+<body>
+</body>
+</html>

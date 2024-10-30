@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/emscripten.d.ts","./src/loadwasm.ts","./src/main.tsx","./src/vite-env.d.ts","./src/wasm.d.ts","./src/components/option3dchart.tsx","./src/components/optionchart.tsx","./src/components/optionform.tsx","./src/components/optionresult.tsx"],"errors":true,"version":"5.6.3"}

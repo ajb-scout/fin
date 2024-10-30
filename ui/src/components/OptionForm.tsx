@@ -75,7 +75,7 @@ const OptionForm: React.FC<ChildProps> = ({ bsmWasm, optionInputs, setOptionInpu
           min={0}
         />
         <NumberInput
-          label="optionInputs.sigma (%)"
+          label="Sigma (%)"
           value={optionInputs.sigma}
           onChange={(value) => setOptionInputs({...optionInputs, sigma: Number(value)})}
           suffix="%"
