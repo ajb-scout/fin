@@ -1,5 +1,5 @@
 // #include "bsm_pricing.h"
-#include <emscripten.h>
+// #include <emscripten.h>
 
 #include <cmath>
 
@@ -82,7 +82,7 @@ extern "C"
     }
 
     // Array Calc: Delta vs. Price
-    EMSCRIPTEN_KEEPALIVE
+    // EMSCRIPTEN_KEEPALIVE
     void delta_for_price(double *S, double *output, double K, double T, double r, double sigma, bool is_call, int size)
     {
         for (int i = 0; i < size; i++)
@@ -103,41 +103,41 @@ extern "C"
     }
 
     // Array Calc: Delta vs. Time vs. Price
-    void delta_for_price_time(double *S, double *output, double K, double *T, double r, double sigma, bool is_call, int size)
+    void delta_for_price_time(double *S, double *output, double K, double *T, double r, double sigma, bool is_call, int sSize, int tSize)
     {
-        for (int t = 0; t < size; t++)
+        for (int t = 0; t < tSize; t++)
         {
             double time = T[t];
-            for (int s = 0; s < size; s++)
+            for (int s = 0; s < sSize; s++)
             {
                 double d = delta(S[s], K, time, r, sigma, is_call);
-                output[s + t * size] = d;
+                output[s + t * sSize] = d;
             }
         }
     }
 
     // Array Calc: Delta vs. Time vs. Price
-    void theta_for_price_time(double *S, double *output, double K, double *T, double r, double sigma, bool is_call, int size)
+    void theta_for_price_time(double *S, double *output, double K, double *T, double r, double sigma, bool is_call, int sSize, int tSize)
     {
-        for (int t = 0; t < size; t++)
+        for (int t = 0; t < tSize; t++)
         {
-            for (int s = 0; s < size; s++)
+            for (int s = 0; s < sSize; s++)
             {
                 double d = theta(S[s], K, T[t], r, sigma, is_call);
-                output[s + t * size] = d;
+                output[s + t * sSize] = d;
             }
         }
     }
 
     // Array Calc: Delta vs. Time vs. Price
-    void gamma_for_price_time(double *S, double *output, double K, double *T, double r, double sigma, bool is_call, int size)
+    void gamma_for_price_time(double *S, double *output, double K, double *T, double r, double sigma, bool is_call, int sSize, int tSize)
     {
-        for (int t = 0; t < size; t++)
+        for (int t = 0; t < tSize; t++)
         {
-            for (int s = 0; s < size; s++)
+            for (int s = 0; s < sSize; s++)
             {
                 double d = gamma(S[s], K, T[t], r, sigma);
-                output[s + t * size] = d;
+                output[s + t * sSize] = d;
             }
         }
     }
