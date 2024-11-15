@@ -6,17 +6,17 @@ import {
   Slider,
   Button,
   Card,
+  SegmentedControl,
 } from '@mantine/core';
 import { OptionInputs } from './OptionResult';
 
 interface ChildProps {
   optionInputs: OptionInputs;
   setOptionInputs: (data: OptionInputs) => void;
-  bsmWasm: any | null;
 }
 
 
-const OptionForm: React.FC<ChildProps> = ({ bsmWasm, optionInputs, setOptionInputs}) => {
+const OptionForm: React.FC<ChildProps> = ({ optionInputs, setOptionInputs}) => {
   const resetForm = () => {
     setOptionInputs({
       S: 100,
@@ -29,7 +29,7 @@ const OptionForm: React.FC<ChildProps> = ({ bsmWasm, optionInputs, setOptionInpu
   }
 
   return (
-    <Card>
+    <Card withBorder>
       <Stack>
         <NumberInput
           label="Stock Price"
@@ -106,6 +106,21 @@ const OptionForm: React.FC<ChildProps> = ({ bsmWasm, optionInputs, setOptionInpu
           onChange={(value) => setOptionInputs({...optionInputs, r: Number(value)})}
           min={0}
         />
+         <SegmentedControl
+      value={String(optionInputs.call)}
+      onChange={(value) => {
+        if(value == "true"){
+          setOptionInputs({...optionInputs, call: Boolean(true)})
+        } else {
+          setOptionInputs({...optionInputs, call: Boolean(false)})
+
+        }
+      }}
+      data={[
+        { label: 'Call', value: 'true' },
+        { label: 'Put', value: 'false' },
+      ]}
+    />
 
 
         <Button onClick={resetForm}>Reset Values</Button>

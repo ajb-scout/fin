@@ -2,16 +2,7 @@
 import React from 'react';
 import { LineChart } from '@mantine/charts';
 import { TempOptionPriceArray } from './OptionResult';
-import { Card, Grid } from '@mantine/core';
-// import '@mantine/core/styles.css';
-
-// interface OptionsChartProps {
-//   data: {
-//     labels: string;
-//     prices: number;
-//   }[];
-// }
-// const zip = (a: number[], b: number[]) => a.map((k, i) => [k, b[i]]);
+import { Card, Center, Grid, Text } from '@mantine/core';
 
 interface OptionsChartProps {
   data: TempOptionPriceArray['data']; // This will be an array of { price: number; underlyings: number; }
@@ -61,25 +52,35 @@ const OptionsChart: React.FC<OptionsChartProps> = ({ data }) => {
   console.log("From options chart");
   console.log(data);
   return (
-    <Card>
-      <h2>Chart</h2>
+    <>
       {data ? (
         <>
           <Grid>
             {mappings.map((mapping) => (
-              <Grid.Col key={mapping.series} span={6}>
-                <LineChart
-                  h={300}
-                  data={data}
-                  dataKey={mapping.key}
-                  xAxisLabel={mapping.x_label}
-                  yAxisLabel={mapping.y_label}
-                  series={[
-                    { name: mapping.series, color: 'indigo.6' }, // Adjust color as needed
-                  ]}
-                  curveType="monotone"
-                  withDots={false}
-                />
+              <Grid.Col key={mapping.series} span={{base: 6, md: 6, sm: 12}}>
+                <Card withBorder>
+                  <Center><Text>{mapping.y_label} vs. {mapping.x_label}</Text></Center>
+                  <LineChart
+                    h={300}
+                    data={data}
+                    dataKey={mapping.key}
+                    xAxisLabel={mapping.x_label}
+                    yAxisLabel={mapping.y_label}
+                    series={[
+                      { name: mapping.series, color: 'indigo.6' }, // Adjust color as needed
+                    ]}
+                    type="gradient"
+                    gradientStops={[
+                      { offset: 0, color: '#00ff00' },
+                      { offset: 100, color: '#0000ff' },
+
+                    ]}
+
+                    curveType="monotone"
+                    withDots={false}
+                  />
+                  {/* </CardSection> */}
+                </Card>
               </Grid.Col>
             ))}
 
@@ -88,10 +89,8 @@ const OptionsChart: React.FC<OptionsChartProps> = ({ data }) => {
         </>
       ) : (
         <p>No option data available.</p>
-      )}
-
-    </Card>
-
+      )}s
+    </>
   );
 };
 

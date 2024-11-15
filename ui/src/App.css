@@ -40,3 +40,6 @@
 .read-the-docs {
   color: #888;
 }
+html, body {
+  overflow: hidden; /* or overflow-y: auto for scroll */
+}

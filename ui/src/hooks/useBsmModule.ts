@@ -1,5 +1,10 @@
 // src/hooks/useBsmModule.ts
 import { useEffect, useState } from 'react';
+declare global {
+    interface Window {
+        createBsmModule:any;
+    }
+}
 
 const useBsmModule = () => {
     const [bsmWasm, setModule] = useState<any | null>(null);

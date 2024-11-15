@@ -55,17 +55,17 @@ option_pricing_lib.black_scholes_strike_vec.argtypes = [ctypes.POINTER(ctypes.c_
 #Delta
 option_pricing_lib.delta_for_price.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
 option_pricing_lib.delta_for_time.argtypes = [ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
-option_pricing_lib.delta_for_price_time.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
+option_pricing_lib.delta_for_price_time.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int, ctypes.c_int]
 
 #Theta
 option_pricing_lib.theta_for_price.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
 option_pricing_lib.theta_for_time.argtypes = [ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
-option_pricing_lib.theta_for_price_time.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
+option_pricing_lib.theta_for_price_time.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int, ctypes.c_int]
 
 #Gamma
 option_pricing_lib.gamma_for_price.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
 option_pricing_lib.gamma_for_time.argtypes = [ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
-option_pricing_lib.gamma_for_price_time.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int]
+option_pricing_lib.gamma_for_price_time.argtypes = [ctypes.POINTER(ctypes.c_double), ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.POINTER(ctypes.c_double), ctypes.c_double, ctypes.c_double, ctypes.c_bool, ctypes.c_int, ctypes.c_int]
 
 # Define a wrapper function for Black-Scholes pricing
 def black_scholes(S, K, T, r, sigma, is_call):
@@ -179,13 +179,13 @@ def greeks_for_curve_3d():
     T_pointer = T_range.ctypes.data_as(ctypes.POINTER(ctypes.c_double))
         
     #Delta Calls
-    option_pricing_lib.delta_for_price_time(S_pointer, delta_price_time_output,  K, T_pointer, r, sigma, is_call, S_range.size)
+    option_pricing_lib.delta_for_price_time(S_pointer, delta_price_time_output,  K, T_pointer, r, sigma, is_call, S_range.size, T_range.size)
 
     #Theta Calls
-    option_pricing_lib.theta_for_price_time(S_pointer, theta_price_time_output,  K, T_pointer, r, sigma, is_call, S_range.size)
+    option_pricing_lib.theta_for_price_time(S_pointer, theta_price_time_output,  K, T_pointer, r, sigma, is_call, S_range.size, T_range.size)
 
     # #Gamma Calls
-    option_pricing_lib.gamma_for_price_time(S_pointer, gamma_price_time_output,  K,  T_pointer, r, sigma, is_call, S_range.size)
+    option_pricing_lib.gamma_for_price_time(S_pointer, gamma_price_time_output,  K,  T_pointer, r, sigma, is_call, S_range.size, T_range.size)
 
 
     
