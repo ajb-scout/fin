@@ -1,3 +1,0 @@
-/Users/ab/dev/fin/cpp/build/CMakeFiles/option_pricing.dir
-/Users/ab/dev/fin/cpp/build/CMakeFiles/edit_cache.dir
-/Users/ab/dev/fin/cpp/build/CMakeFiles/rebuild_cache.dir
