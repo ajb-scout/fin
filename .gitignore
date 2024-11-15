@@ -1,2 +1,5 @@
 build
 node_modules
+!cpp/*.cpp
+!cpp/.h
+cpp/*.wasm
