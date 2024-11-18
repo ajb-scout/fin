@@ -11,6 +11,9 @@ extern "C"
         //return 0.5 * (1.0 + erf(x / sqrt(2.0)));
         return 0.5 * erfc(-1.0 * x * M_SQRT1_2);
     }
+    double norm_pdf(double x){
+        return (1.0 / sqrt(2 * M_PI)) * exp(-0.5 * x * x);
+    }
 
 
         // double delta(double S, double K, double T, double r, double sigma)
@@ -28,7 +31,9 @@ extern "C"
     double gamma(double S, double K, double T, double r, double sigma)
     {
         double d1 = (log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * sqrt(T));
-        return exp(-0.5 * d1 * d1) / (S * sigma * sqrt(T) * sqrt(2 * M_PI));
+        
+        //return exp(-0.5 * d1 * d1) / (S * sigma * sqrt(T) * sqrt(2 * M_PI));
+        return norm_pdf(d1) / (S * sigma * sqrt(T));
     }
 
     // Greek: Vega
@@ -47,11 +52,13 @@ extern "C"
 
         if (is_call)
         {
-            theta_value = -(S * exp(-0.5 * d1 * d1) * sigma) / (2 * sqrt(T) * sqrt(2 * M_PI)) - r * K * exp(-r * T) * norm_cdf(d2);
+            theta_value = -1*S* norm_pdf(d1) * sigma / (2 * sqrt(T)) - r * K * exp(-1.0*r*T)*norm_cdf(d2);
+    //theta_value = -(S * exp(-0.5* d1 * d1) * sigma) / (2 * sqrt(T) * sqrt(2 * M_PI)) - r * K * exp(-r * T) * norm_cdf(d2);
         }
         else
         {
-            theta_value = -(S * exp(-0.5 * d1 * d1) * sigma) / (2 * sqrt(T) * sqrt(2 * M_PI)) + r * K * exp(-r * T) * norm_cdf(-d2);
+    //theta_value = -(S * exp(-0.5 * d1 * d1) * sigma) / (2 * sqrt(T) * sqrt(2 * M_PI)) + r * K * exp(-r * T) * norm_cdf(-d2);
+            theta_value = -1*S* norm_pdf(d1) * sigma / (2 * sqrt(T)) + r * K * exp(-1.0*r*T)*norm_cdf(-1*d2);
         }
 
         return theta_value;
