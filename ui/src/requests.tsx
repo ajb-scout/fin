@@ -198,8 +198,8 @@ export const fetchOption3dArraysWasm = async (
 
         // Call the function
         bsmWasm._delta_for_price_time(SPtr, outputPtrDelta, K, TPtr, r, sigma, is_call, sSize, tSize);
-        bsmWasm._gamma_for_price_time(SPtr, outputPtrTheta, K, TPtr, r, sigma, is_call, sSize, tSize);
-        bsmWasm._theta_for_price_time(SPtr, outputPtrGamma, K, TPtr, r, sigma, is_call, sSize, tSize);
+        bsmWasm._gamma_for_price_time(SPtr, outputPtrGamma, K, TPtr, r, sigma, is_call, sSize, tSize);
+        bsmWasm._theta_for_price_time(SPtr, outputPtrTheta, K, TPtr, r, sigma, is_call, sSize, tSize);
 
 
         // Read the output array
@@ -233,7 +233,7 @@ export const fetchOption3dArraysWasm = async (
         bsmWasm._free(outputPtrDelta);
         bsmWasm._free(outputPtrTheta);
         bsmWasm._free(outputPtrGamma);
-
+        console.log(greekOutputResponse);
         updateData(greekOutputResponse);
 
     };
@@ -311,8 +311,7 @@ export const fetchOptionGreekArraysWasm = async (
         }
 
         updateOptionCurveData({ data: updatedObjectsArray });
-        console.log("Set the Greek data");
-
+            
         // Free allocated memory
         bsmWasm._free(SPtr);
         bsmWasm._free(TPtr);

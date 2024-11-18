@@ -115,14 +115,16 @@ const OptionChart3d: React.FC<OptionsChartProps> = ({ data }) => {
       const tIndex = timeSet.indexOf(i.time);
       const pIndex = priceSet.indexOf(i.price);
       if (tIndex !== -1 && pIndex !== -1) {
-        deltaZ[tIndex][pIndex] = Math.abs(accessor(i)) //absolute vals to display gamma
+        deltaZ[tIndex][pIndex] = (accessor(i)) //absolute vals to display theta
       }
     });
+    console.log("deltaz")
+    console.log(deltaZ);
 
     // Calculate min and max values for normalization
     const flatDeltaZ = deltaZ.flat();
-    const minZ = Math.min(...flatDeltaZ);
-    const maxZ = Math.max(...flatDeltaZ);
+    const minZ = (Math.min(...flatDeltaZ));
+    const maxZ = (Math.max(...flatDeltaZ));
 
     // Create surface geometry
     const geometry = new THREE.PlaneGeometry(axisLength, axisLength, axisLength - 1, axisLength - 1);
@@ -133,8 +135,8 @@ const OptionChart3d: React.FC<OptionsChartProps> = ({ data }) => {
       for (let j = 0; j < axisLength; j++) {
         const value = deltaZ[j][i];
         const normalized = (value - minZ) / (maxZ - minZ); // Normalize the value
-        const zValue = normalized * axisLength; // Scale by axisLength
-        vertices[(j * axisLength + i) * 3 + 2] = zValue - minZ; // Set z position
+        const zValue = (normalized * axisLength); // Scale by axisLength
+        vertices[(j * axisLength + i) * 3 + 2] = zValue ; // Set z position
       }
     }
 

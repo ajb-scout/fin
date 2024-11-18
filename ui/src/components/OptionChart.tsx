@@ -49,8 +49,6 @@ const mappings = [
 ]
 
 const OptionsChart: React.FC<OptionsChartProps> = ({ data }) => {
-  console.log("From options chart");
-  console.log(data);
   return (
     <>
       {data ? (
