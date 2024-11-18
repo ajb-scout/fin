@@ -1,6 +1,6 @@
 // #include "bsm_pricing.h"
 // #include <emscripten.h>
-
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 extern "C"
@@ -8,7 +8,8 @@ extern "C"
 
         double norm_cdf(double x)
     {
-        return 0.5 * (1.0 + erf(x / sqrt(2.0)));
+        //return 0.5 * (1.0 + erf(x / sqrt(2.0)));
+        return 0.5 * erfc(-1.0 * x * M_SQRT1_2);
     }
 
 
@@ -66,7 +67,7 @@ extern "C"
 
     double black_scholes(double S, double K, double T, double r, double sigma, bool is_call)
     {
-        double d1 = delta(S, K, T, r, sigma, is_call);
+        double d1 = (log(S / K) + (r + 0.5 * sigma * sigma) * T) / (sigma * sqrt(T));
         double d2 = d1 - sigma * sqrt(T);
 
         double price;
